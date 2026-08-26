@@ -40,7 +40,7 @@ cp .env.example .env   # set SMTP_PASS = Gmail App Password
 CONCIERGE_FORCE=1 .venv/bin/python scripts/concierge.py --dry-run
 ```
 
-See `docs/concierge.md`. Tracker: `data/waitlist.csv`.
+See `docs/concierge.md`. Tracker: `data/waitlist.csv`. Public stats: `stats.html` + `stats.json`.
 
 ## Go-to-market
 

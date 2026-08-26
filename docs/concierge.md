@@ -44,6 +44,18 @@ File: `data/waitlist.csv`
 
 Dedup of sent slot timestamps: `data/alert_state.json`
 
+## Public stats page
+
+Concierge writes aggregate counts to `stats.json` (no emails). Page: `/stats.html`.
+
+After local update, publish to GitHub Pages:
+
+```bash
+./scripts/publish-stats.sh
+```
+
+Optional auto-push on each concierge run: `STATS_AUTO_PUSH=1` in `.env`.
+
 ## Logs
 
 `~/Library/Logs/slotwake-muenchen.launchd.log`

@@ -63,6 +63,8 @@ TZ = ZoneInfo("Europe/Berlin")
 LOG = logging.getLogger("slotwake")
 WAITLIST = ROOT / "data" / "waitlist.csv"
 STATE = ROOT / "data" / "alert_state.json"
+STATS = ROOT / "stats.json"
+INACTIVE_STATUSES = frozenset({"booked", "unsubscribed", "expired"})
 TRACKER_FIELDS = [
     "email",
     "service",
@@ -157,6 +159,69 @@ def load_state() -> dict[str, Any]:
 
 def save_state(data: dict[str, Any]) -> None:
     STATE.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def write_stats(rows: list[dict[str, str]], state: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Write public aggregate stats (no emails) for stats.html on GitHub Pages."""
+    active = [
+        r
+        for r in rows
+        if (r.get("status") or "watching") not in INACTIVE_STATUSES and (r.get("email") or "")
+    ]
+    by_service: dict[str, int] = {}
+    alerts_total = 0
+    for row in rows:
+        if not (row.get("email") or ""):
+            continue
+        status = row.get("status") or "watching"
+        if status not in INACTIVE_STATUSES:
+            svc = (row.get("service") or "unknown").lower()
+            by_service[svc] = by_service.get(svc, 0) + 1
+        try:
+            alerts_total += int(row.get("alerts_sent") or "0")
+        except ValueError:
+            pass
+
+    stats: dict[str, Any] = {
+        "updated_at": now_iso(),
+        "active_subscribers": len(active),
+        "total_signups": len([r for r in rows if (r.get("email") or "")]),
+        "alerts_sent_total": alerts_total,
+        "watching": sum(1 for r in rows if (r.get("status") or "watching") == "watching"),
+        "alerted": sum(1 for r in rows if r.get("status") == "alerted"),
+        "by_service": by_service,
+    }
+    if state:
+        if state.get("last_run"):
+            stats["last_run"] = state["last_run"]
+        if state.get("last_slot_count") is not None:
+            stats["last_slot_count"] = state["last_slot_count"]
+    STATS.write_text(json.dumps(stats, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return stats
+
+
+def maybe_publish_stats() -> None:
+    if os.getenv("STATS_AUTO_PUSH", "").strip().lower() not in {"1", "true", "yes"}:
+        return
+    try:
+        subprocess.run(["git", "add", "stats.json"], cwd=ROOT, check=True, timeout=30)
+        diff = subprocess.run(
+            ["git", "diff", "--cached", "--quiet", "stats.json"],
+            cwd=ROOT,
+            timeout=30,
+        )
+        if diff.returncode == 0:
+            return
+        subprocess.run(
+            ["git", "commit", "-m", "Update public waitlist stats."],
+            cwd=ROOT,
+            check=True,
+            timeout=30,
+        )
+        subprocess.run(["git", "push", "origin", "HEAD"], cwd=ROOT, check=True, timeout=90)
+        LOG.info("published stats.json to GitHub Pages")
+    except Exception as exc:
+        LOG.warning("stats auto-push failed: %s", exc)
 
 
 def in_business_hours() -> bool:
@@ -546,6 +611,8 @@ def main() -> int:
     state["last_slot_count"] = len(slots)
     save_state(state)
     save_rows(rows)
+    write_stats(rows, state)
+    maybe_publish_stats()
     LOG.info("done matches=%s", matched)
     return 0
 
