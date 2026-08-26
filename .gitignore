@@ -1,0 +1,12 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+data/*.json
+!data/.gitkeep
+__pycache__/
+.venv/
+venv/
+.netlify/
+.formsubmit_email
+data/waitlist.csv
