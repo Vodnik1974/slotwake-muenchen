@@ -1,2 +1,2 @@
-email,service,offices,date_from,date_to,time_of_day,urgency,alert_lang,wtp,notes
-you@example.com,wohnsitzanmeldung,any,2026-08-26,2026-09-15,either,14d,en,yes,manual test row
+email,service,offices,date_from,date_to,time_of_day,urgency,alert_lang,wtp,notes,status,created_at,last_alert_at,last_slot,alerts_sent
+you@example.com,wohnsitzanmeldung,any,2026-08-26,2026-09-15,either,14d,en,yes,manual test,watching,2026-08-26T12:00:00+02:00,,,0

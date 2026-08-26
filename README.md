@@ -27,16 +27,20 @@ git push origin main
 
 Local preview: `python3 -m http.server 8080`
 
-## Waitlist → alerts
+## Waitlist → alerts (automated)
+
+Concierge runs every **15 minutes** via LaunchAgent (06:00–19:00 Berlin).
 
 ```bash
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-export STARNBERG_TERMIN_ROOT=/Users/Inna/Projects/starnberg-termin
-# put signups in data/waitlist.csv
-.venv/bin/python scripts/notify_once.py
+# one-time
+cp .env.example .env   # set SMTP_PASS = Gmail App Password
+./scripts/install-launchagent.sh
+
+# manual
+CONCIERGE_FORCE=1 .venv/bin/python scripts/concierge.py --dry-run
 ```
 
-Optional: `SEND_WEBHOOK_URL` in `.env`.
+See `docs/concierge.md`. Tracker: `data/waitlist.csv`.
 
 ## Go-to-market
 
