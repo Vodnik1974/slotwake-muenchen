@@ -49,3 +49,4 @@ See `docs/concierge.md`. Tracker: `data/waitlist.csv`. Public stats: `stats.html
 ## Hard rules
 
 - No auto-book · no sold slots · not on fs-hilfe checkout · no `ACTIVE_SNIPER_IDS` without a decision
+- Soft cross-link only: SlotWake → [fs-hilfe.de](https://fs-hilfe.de/) for Führerschein (separate brand/checkout)

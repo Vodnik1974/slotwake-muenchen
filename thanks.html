@@ -8,19 +8,24 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    :root { --bg:#f3efe6; --ink:#1c1915; --muted:#5c564c; --accent:#0f5c4c; }
+    :root { --bg:#f3efe6; --ink:#1c1915; --muted:#5c564c; --accent:#0f5c4c; --line:#cfc6b6; }
     body { margin:0; font-family:"Source Sans 3",system-ui,sans-serif; background:var(--bg); color:var(--ink); }
     .wrap { max-width:36rem; margin:0 auto; padding:4rem 1.25rem; }
     h1 { font-family:Fraunces,Georgia,serif; font-size:2rem; line-height:1.15; }
     p { color:var(--muted); font-size:1.05rem; }
     a { color:var(--accent); font-weight:600; }
+    .cross {
+      margin-top: 2rem; padding-top: 1.25rem; border-top: 1px dashed var(--line);
+      font-size: 0.95rem;
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>You’re on the list.</h1>
-    <p>We’ll email when SlotWake goes live — and during the manual test phase if a matching Munich Bürgerbüro slot shows up. Book only on <a href="https://stadt.muenchen.de/buergerservice/terminvereinbarung.html">muenchen.de</a>.</p>
-    <p><a href="/">← Back</a></p>
+    <p>We’ll email when a matching Munich Bürgerbüro slot shows up. Book only on <a href="https://stadt.muenchen.de/buergerservice/terminvereinbarung.html">muenchen.de</a>.</p>
+    <p class="cross">Need a Munich <strong>Führerschein</strong> appointment instead? Separate paid service: <a href="https://fs-hilfe.de/?utm_source=slotwake&amp;utm_medium=referral&amp;utm_campaign=muenchen_thanks" rel="noopener noreferrer">fs-hilfe.de</a> — not part of SlotWake.</p>
+    <p><a href="index.html">← Back</a></p>
   </div>
 </body>
 </html>
