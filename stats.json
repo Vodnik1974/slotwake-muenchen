@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-08-28T17:39:22+02:00",
+  "updated_at": "2026-08-28T17:54:31+02:00",
   "active_subscribers": 1,
   "total_signups": 1,
-  "alerts_sent_total": 58,
+  "alerts_sent_total": 59,
   "watching": 0,
   "alerted": 1,
   "by_service": {
     "wohnsitzanmeldung": 1
   },
-  "last_run": "2026-08-28T17:39:22+02:00",
+  "last_run": "2026-08-28T17:54:31+02:00",
   "last_slot_count": 11
 }
